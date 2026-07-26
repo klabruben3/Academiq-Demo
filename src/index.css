@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+:root {
+  --background: #080d1a;
+  --foreground: #f0f4ff;
+  --card: #0f1629;
+  --card-foreground: #e2e8f8;
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --secondary: #1e2540;
+  --secondary-foreground: #a0aec0;
+  --muted: #141b2d;
+  --muted-foreground: #6b7a99;
+  --accent: #6366f1;
+  --accent-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.06);
+  --ring: rgba(99, 102, 241, 0.5);
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Hide scrollbar when not hovering */
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s;
+}
+.overflow-y-auto:hover {
+  scrollbar-color: rgba(255,255,255,0.12) transparent;
+}
+
+/* Sidebar static on large screens */
+@media (min-width: 1024px) {
+  aside {
+    position: sticky !important;
+    top: 0;
+    height: 100vh;
+    transform: none !important;
+  }
+}
+
+/* Focus styles */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
