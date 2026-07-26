@@ -20,30 +20,11 @@ const NAV_ITEMS = [
   { id: 'analytics', label: 'Analytics', icon: BarChart2 },
 ];
 
-const SCORES_KEY = 'academiq-scores';
-const COMPLETED_KEY = 'academiq-completed';
-
-function loadScores(): Record<string, number> {
-  try { return JSON.parse(localStorage.getItem(SCORES_KEY) ?? '{}'); } catch { return {}; }
-}
-
-function loadCompleted(): Record<string, boolean> {
-  try { return JSON.parse(localStorage.getItem(COMPLETED_KEY) ?? '{}'); } catch { return {}; }
-}
-
 export default function App() {
   const [view, setView] = useState<ViewId>('dashboard');
-  const [scores, setScores] = useState<Record<string, number>>(loadScores);
-  const [completed, setCompleted] = useState<Record<string, boolean>>(loadCompleted);
+  const [scores, setScores] = useState<Record<string, number>>({});
+  const [completed, setCompleted] = useState<Record<string, boolean>>({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  useEffect(() => {
-    localStorage.setItem(SCORES_KEY, JSON.stringify(scores));
-  }, [scores]);
-
-  useEffect(() => {
-    localStorage.setItem(COMPLETED_KEY, JSON.stringify(completed));
-  }, [completed]);
 
   // Merge completed state into modules for timeline
   const modulesWithState = MODULES.map(mod => ({
