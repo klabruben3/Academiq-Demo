@@ -7,7 +7,10 @@ export type AssessmentType =
   | "online-test"
   | "attendance"
   | "aleks"
-  | "class-work";
+  | "class-work"
+  | "practical"
+  | "practical-exam"
+  | "mcq";
 
 export type Priority = "critical" | "high" | "medium" | "low";
 
