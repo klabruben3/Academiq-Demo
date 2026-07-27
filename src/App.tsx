@@ -209,9 +209,9 @@ export default function App() {
           <AnimatePresence mode="wait">
             <motion.div
               key={view}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.18 }}
               className="p-4 md:p-6 max-w-6xl mx-auto"
             >

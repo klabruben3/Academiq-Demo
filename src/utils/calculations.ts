@@ -233,6 +233,72 @@ export function getMonthlyWorkload(): { month: string; load: number }[] {
   }));
 }
 
+export interface CompletionStats {
+  completed: number;
+  total: number;
+  percent: number;
+  requiredPercent: number;
+  requiredCount: number;
+  meetsRequirement: boolean;
+}
+
+export function getCompletionStats(
+  mod: Module,
+  scores: Record<string, number>,
+): CompletionStats {
+  const countable = mod.assessments.filter(
+    (a) => a.countsTowardCompletion !== false,
+  );
+  const completed = countable.filter((a) => a.id in scores).length;
+  const total = countable.length;
+  const percent = total > 0 ? Math.round((completed / total) * 1000) / 10 : 0;
+  const requiredPercent = mod.passRequirements?.minimumCompletionPercent ?? 100;
+  const requiredCount =
+    requiredPercent > 0 ? Math.ceil((requiredPercent / 100) * total) : total;
+
+  return {
+    completed,
+    total,
+    percent,
+    requiredPercent,
+    requiredCount,
+    meetsRequirement: completed >= requiredCount,
+  };
+}
+
+export function isOnTrackToPass(
+  mod: Module,
+  scores: Record<string, number>,
+): boolean {
+  const mark = calculateParticipationMark(mod, scores);
+  const finalMin =
+    mod.passRequirements?.finalMin ?? mod.participationFormula.minimumToPass;
+
+  if (mark < finalMin) return false;
+
+  const completion = getCompletionStats(mod, scores);
+  if (completion.requiredPercent < 100 && !completion.meetsRequirement) {
+    return false;
+  }
+
+  return true;
+}
+
+export function isExamEligible(
+  mod: Module,
+  scores: Record<string, number>,
+): boolean {
+  if (!mod.hasExam) return false;
+  return calculateParticipationMark(mod, scores) >= getAdmissionThreshold(mod);
+}
+
+export function getAdmissionThreshold(mod: Module): number {
+  return (
+    mod.passRequirements?.participationMin ??
+    mod.participationFormula.minimumToPass
+  );
+}
+
 export function countdownLabel(dateStr: string): string {
   const days = getDaysUntil(dateStr);
   if (days < 0) return `${Math.abs(days)}d overdue`;
